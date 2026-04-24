@@ -1,123 +1,106 @@
-<div align="center">
-  <img src="docs/images/banner.png" alt="EliteFolks Neon Banner"/>
-  <br/>
-  <br/>
-  <img src="./frontend/public/voicecode-logo.png" width="80" alt="EliteFolks Logo"/>
-  <h1>EliteFolks | Next-Generation Technical Assessment & Learning</h1>
-  <p><strong>A Showcase of Engineering, UI/UX, and AI Integration</strong></p>
-  <h3>🌐 <a href="https://elitefolks.com/">Experience the Live Platform at EliteFoaks.com</a></h3>
-</div>
+# EliteFolks — AI Coding Assistant & Training Arena
 
-<br/>
+EliteFolks is an AI-assisted coding platform that helps developers practice smarter by recommending problems based on their performance.
 
-> ⚠️ **Important Security Notice (Showcase Only)**
-> 
-> This repository is a **Public Showcase / Sanitized Replica** of the EliteFolks frontend. 
-> Because EliteFolks handles proprietary evaluation algorithms, enterprise B2B hiring data, complex AI streaming logic, and secure code-sandboxing, the original source code cannot be made public. 
-> 
-> In this repo:
-> - **All Backend & AI Logic is Mocked:** Real API keys, database schemas, and AI endpoints have been entirely stripped.
-> - **Mock Data Installed:** Actions that normally trigger heavy backend jobs (like executing code or voice chats) respond with dummy data to simulate the UI safely. 
-> - **Visually Authentic:** The interface, routing, and component architecture remain untouched so you can explore our engineering quality.
-> 
-> To experience the *real* functional application out in the wild with full algorithms and live data, **[Visit our live production deployment at EliteFoaks.com](https://elitefolks.com)**
+🌐 **Live Demo:** [https://elitefolks.com](https://elitefolks.com)
 
 ---
 
-## 🌟 Platform Overview
+## Why this exists
 
-EliteFolks isn't just another coding platform—it is a comprehensive bridge between **AI-tutored developer education** and **B2B technical hiring assessments**. We combine a high-fidelity gamified learning environment with enterprise-grade candidate assessment tools.
+Most students learn coding by solving random problems without a structured path. This leads to slow progress and frustration.
 
-Our architecture connects an immersive frontend (built on Next.js, Framer Motion, and GSAP) with a proprietary backend that leverages Google Gemini for true Socratic voice conversations, and strict sandboxed environments (Judge0) for secure code execution.
-
----
-
-## 🚀 Core Features 
-
-### 1. 🎤 The AI Socratic Live Tutor
-Unlike standard chatbots, our AI tutor acts as a **true mentor**. It is explicitly programmed *never to give away the answer*. 
-- **Voice & Text Interactivity:** Talk aloud to the AI using your microphone; it listens, reads your current editor code in real-time, and responds contextually.
-- **Micro-State Awareness:** The tutor knows exactly where your cursor is and what lesson you are struggling with.
-- *(Note: In this showcase repo, the voice capabilities are mocked strictly for visual demonstration).*
-
-<div align="center">
-  <img src="docs/images/ai_tutor.png" alt="AI Code Tutor Visualization" width="700"/>
-</div>
-
-### 2. ⚔️ Competitive 1v1 Battle Arena
-The Battle Arena introduces a high-stakes, competitive programming space.
-- **Ranked Matchmaking:** Users face off against peers of similar skill ratings.
-- **Live Leaderboards:** Climb the global competitive ladder.
-- **Spectator Modes:** Watch complex logic battles unfold in real-time.
-
-<div align="center">
-  <img src="docs/images/arena.png" alt="Competitive Coding Arena Architecture" width="700"/>
-</div>
-
-### 3. 🏢 B2B Hiring & Assessments Portal
-EliteFolks powers hiring for top organizations. 
-- **Automated Anti-Cheat Proctoring:** Incorporates screen-switching detection, webcam monitoring, and plagiarism heuristics.
-- **Deep Candidate Analytics:** Generates comprehensive PDF reports of a candidate's logic process, not just whether their code passed or failed.
-- **Custom Hiring Pipelines:** Employers can create targeted templates (e.g., Senior React Dev, Junior Go Lang Engineer) and invite candidates via secure URLs.
-
-### 4. 🧠 Deep Tech Training (DSA & Logic)
-We replace boring textbooks with visually stunning interactive courses.
-- **In-Browser IDE:** A deeply integrated Monaco Editor featuring syntax highlighting, multi-language support (Python, JS, C++, Go, Rust, Java), and terminal outputs.
-- **Visual Memory Models:** Complex concepts (like pointers and recursion) are rendered visually directly alongside the problem description.
-- **Daily Quests & Streaks:** Gamification elements keep users consistently motivated.
-
-### 5. 💎 Gamification, Shop & Inventory
-- **XP Progression:** Earn experience points by solving algorithmic challenges.
-- **Virtual Economy:** Spend earned points in the platform shop to unlock cosmetic IDE themes, profile banners, and unique AI tutor personalities.
-- **Achievements:** Earn badges for milestones across different programming languages and competitive ranks.
+EliteFolks focuses on adaptive learning — helping users work on the *right problems at the right time*.
 
 ---
 
-## 🛠 Technical Architecture
+## What it does
 
-This application was engineered with a focus on high-performance rendering and complex state management across highly interactive surfaces.
-
-### **Frontend Infrastructure**
-- **Framework:** Next.js (App Router) + React 19
-- **State Management:** React Context API + Custom hook abstractions (`useCourseProgress`, `useLiveTutor`, `useCodeExecution`)
-- **Styling:** Tailwind CSS integrated with customized SCSS for specialized layouts
-- **Animations:** GSAP (ScrollTrigger, Flip), Framer Motion, and Spline 3D natively integrated for a premium, heavy-duty visual experience.
-- **Code Editor:** Monaco Editor customized with advanced workers and Pyodide.
-
-### **Backend Infrastructure (Proprietary / Excluded)**
-*Our private backend architecture revolves around:*
-- **Appwrite:** Handles server-side databases, Auth, and highly scalable microservice functions.
-- **Edge LLM Processing:** Native streaming integrations with Anthropic Claude and Google Gemini via raw stream pipelining.
-- **Secure Code Execution:** Ephemeral Docker containers processing arbitrary untrusted code via Judge0 APIs.
-- **TTS/STT:** Streaming bidirectional audio for the Voice Tutor using Web Audio APIs and intelligent Voice Activity Detection (VAD).
+* Recommends coding problems based on user performance
+* Tracks progress and identifies learning gaps
+* Provides AI-assisted guidance (voice + text)
+* Offers an interactive coding environment
+* Includes competitive and gamified learning features
 
 ---
 
-## 🏃‍♂️ Running the Showcase Locally
+## Important Note
 
-Even though the APIs are stripped, you can safely clone and run this application purely as a frontend Next.js project. Our custom `mockProxy` interceptors will trick the UI into believing a server exists, providing dummy authentication and responses out of the box!
+This repository is a **public showcase version** of EliteFolks.
+
+* Core backend systems are private
+* Recommendation engine is not included
+* AI pipelines and prompt logic are excluded
+* APIs are mocked for safe demonstration
+
+This repo is intended to demonstrate **frontend engineering, UI/UX, and system design thinking**.
+
+---
+
+## Graphics!!
+
+![Hero](docs/images/banner.png)
+![AI Tutor](docs/images/ai_tutor.png)
+![Arena](docs/images/arena.png)
+
+---
+
+## Architecture (High-Level)
+
+Frontend (Next.js) → API Layer → Private Backend (AI + Recommendation Engine)
+
+* Frontend handles UI, interactions, and state
+* API layer communicates with backend services (mocked here)
+* Backend includes AI systems, evaluation engine, and data pipelines (private)
+
+---
+
+## Tech Stack
+
+**Frontend**
+
+* Next.js (App Router)
+* React
+* Tailwind CSS
+* GSAP & Framer Motion
+
+**Tools & Integrations**
+
+* Monaco Editor
+* Mock APIs for simulation
+
+---
+
+## What I Learned
+
+* Designing adaptive learning systems
+* Working with AI-assisted workflows
+* Building complex UI systems with high interactivity
+* Structuring scalable frontend architecture
+* Thinking in terms of product, not just features
+
+---
+
+## Run Locally
 
 ```bash
-# 1. Clone the Showcase Repository
 git clone https://github.com/Atul-Chahar/elitefolks_showcase.git
-cd elitefolks_showcase
-
-# 2. Enter the frontend directory
-cd frontend
-
-# 3. Install dependencies (Legacy flags used to bypass React 19 peer-dependency warnings)
+cd elitefolks_showcase/frontend
 npm install --legacy-peer-deps
-
-# 4. Start the Development Server
 npm run dev
 ```
 
-Finally, open your browser and navigate to `http://localhost:3000`. You will be automatically logged in as a "Showcase Viewer".
+Visit: [http://localhost:3000](http://localhost:3000)
 
 ---
 
-## 📚 Further Information
-Curious about how we orchestrate the AI prompts, handle Sandboxing, or design data relations without exposing them?
-Check out the [`/docs/architecture.md`](docs/architecture.md) file inside this repository for an extended system design overview.
+## About
 
-*Built with ❤️ by the EliteFolks Engineering Team.*
+Built by Atul Chahar
+
+* GitHub: [https://github.com/Atul-Chahar](https://github.com/Atul-Chahar)
+* LinkedIn: [https://www.linkedin.com/in/atul-chahar/](https://www.linkedin.com/in/atul-chahar/)
+
+---
+
+**Note:** This project is actively evolving. The current version represents a showcase of the product direction and engineering approach.
