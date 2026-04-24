@@ -5,7 +5,7 @@
   <img src="./frontend/public/voicecode-logo.png" width="80" alt="EliteFolks Logo"/>
   <h1>EliteFolks | Next-Generation Technical Assessment & Learning</h1>
   <p><strong>A Showcase of Engineering, UI/UX, and AI Integration</strong></p>
-  <h3>🌐 <a href="https://EliteFoaks.com">Experience the Live Platform at EliteFoaks.com</a></h3>
+  <h3>🌐 <a href="https://elitefolks.com/">Experience the Live Platform at EliteFoaks.com</a></h3>
 </div>
 
 <br/>
