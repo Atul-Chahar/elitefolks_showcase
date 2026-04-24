@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="./frontend/public/voicecode-logo.png" width="80" alt="EliteFolks Logo"/>
+</div>
+
 # EliteFolks — AI Coding Assistant & Training Arena
 
 EliteFolks is an AI-assisted coding platform that helps developers practice smarter by recommending problems based on their performance.
