@@ -1,0 +1,240 @@
+
+import React, { useState, useEffect } from 'react';
+import { Transcript, Lesson } from '../types';
+import { useAuth } from '../contexts/AuthContext';
+import { useUserNotes } from '../hooks/useUserNotes';
+
+interface ConversationPanelProps {
+    isSessionActive: boolean;
+    isConnecting: boolean;
+    isListening: boolean;
+    isSpeaking: boolean;
+    isMuted: boolean;
+    startSession: () => void;
+    stopSession: () => void;
+    toggleMute: () => void;
+    transcript: Transcript;
+    sessionError: string | null;
+    currentLesson: Lesson | null;
+}
+
+const ConversationPanel: React.FC<ConversationPanelProps> = ({
+    isSessionActive,
+    isConnecting,
+    isListening,
+    isSpeaking,
+    isMuted,
+    startSession,
+    stopSession,
+    toggleMute,
+    transcript,
+    sessionError,
+    currentLesson
+}) => {
+    const { user } = useAuth();
+    const [activeTab, setActiveTab] = useState<'guide' | 'tutor' | 'notes'>('guide');
+    const { notes, updateNotes, isLoading: isNotesLoading, isSaving } = useUserNotes();
+
+    // Keyboard shortcut for Mute (Alt + M)
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.altKey && e.code === 'KeyM' && isSessionActive) {
+                e.preventDefault();
+                toggleMute();
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isSessionActive, toggleMute]);
+
+    const handleMicClick = () => {
+        if (isSessionActive) {
+            stopSession();
+        } else {
+            startSession();
+        }
+    };
+
+    let micButtonState = 'idle';
+    if (isConnecting) micButtonState = 'connecting';
+    else if (sessionError) micButtonState = 'error';
+    else if (isSessionActive) {
+        if (isMuted) micButtonState = 'muted';
+        else if (isSpeaking) micButtonState = 'speaking'; // AI speaking overrides listening visually
+        else if (isListening) micButtonState = 'listening';
+        else micButtonState = 'active';
+    }
+
+    const getStatusText = () => {
+        if (sessionError) return sessionError;
+        if (isConnecting) return 'Connecting...';
+        if (isSessionActive) {
+            if (isMuted) return 'Mic Muted (Alt+M)';
+            if (isSpeaking) return 'AI Speaking (Auto-Muted)';
+            if (isListening) return 'Listening...';
+            return 'Session Active';
+        }
+        return 'Tap to Start';
+    }
+
+    return (
+        <div className="bg-zinc-900/40 backdrop-blur-md rounded-[1.5rem] flex flex-col h-full border border-white/5 overflow-hidden shadow-xl relative group">
+            {/* Ambient Glow */}
+            <div className="absolute top-0 left-0 w-full h-20 bg-gradient-to-b from-orange-500/5 to-transparent pointer-events-none"></div>
+
+            <header className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-black/20 flex-shrink-0 z-10">
+                <div className="flex bg-black/40 rounded-lg p-1 border border-white/5 w-full">
+                    <button
+                        onClick={() => setActiveTab('guide')}
+                        className={`flex-1 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'guide' ? 'bg-zinc-700 text-white shadow-lg' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    >
+                        Guide
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('tutor')}
+                        className={`flex-1 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all ${activeTab === 'tutor' ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    >
+                        AI Tutor
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('notes')}
+                        className={`flex-1 px-4 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${activeTab === 'notes' ? 'bg-zinc-700 text-white shadow-lg' : 'text-zinc-500 hover:text-zinc-300'}`}
+                    >
+                        Notes
+                        {isSaving && <i className="fas fa-sync fa-spin opacity-50 text-[10px]"></i>}
+                    </button>
+                </div>
+            </header>
+
+            <div className="flex-grow flex flex-col min-h-0 relative z-10">
+                {activeTab === 'guide' && (
+                    <div className="flex-grow p-6 overflow-y-auto custom-scrollbar">
+                        <h2 className="text-2xl font-bold font-manrope text-white mb-6">{currentLesson?.title || 'Loading...'}</h2>
+
+                        {currentLesson?.content.explanations ? (
+                            <div className="space-y-6">
+                                {currentLesson.content.explanations.map((text, idx) => (
+                                    <div key={idx} className="prose prose-invert prose-p:text-zinc-300 prose-headings:text-white max-w-none">
+                                        <p className="leading-relaxed text-sm md:text-base">{text}</p>
+                                    </div>
+                                ))}
+
+                                <div className="mt-8 p-4 rounded-xl bg-orange-500/10 border border-orange-500/20">
+                                    <h4 className="text-sm font-bold text-orange-400 mb-2 flex items-center gap-2">
+                                        <i className="fas fa-lightbulb"></i> AI Tip
+                                    </h4>
+                                    <p className="text-xs text-orange-200/70">
+                                        Stuck? Switch to the "AI Tutor" tab and ask for a hint! The AI knows exactly where you are in the lesson.
+                                    </p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex flex-col items-center justify-center h-full text-zinc-500 gap-4">
+                                <i className="fas fa-book-open text-4xl opacity-20"></i>
+                                <p>Select a lesson to view contents</p>
+                            </div>
+                        )}
+                    </div>
+                )}
+
+                {activeTab === 'tutor' && (
+                    <div className="flex-grow flex flex-col min-h-0">
+                        {/* Transcription Area with Glass Effect */}
+                        <div className="flex-grow p-4 overflow-y-auto min-h-0 space-y-4 custom-scrollbar flex flex-col">
+                            {transcript.user && (
+                                <div className="self-end max-w-[85%]">
+                                    <div className="bg-orange-500 text-white px-4 py-3 rounded-2xl rounded-tr-sm shadow-lg shadow-orange-500/10 text-sm">
+                                        {transcript.user}
+                                    </div>
+                                </div>
+                            )}
+
+                            {transcript.ai && (
+                                <div className="self-start max-w-[85%] flex gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg border border-white/10">
+                                        <i className="fas fa-robot text-xs text-white"></i>
+                                    </div>
+                                    <div className="bg-zinc-800/80 border border-white/5 backdrop-blur-sm text-zinc-200 px-4 py-3 rounded-2xl rounded-tl-sm shadow-lg text-sm leading-relaxed">
+                                        {transcript.ai}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Empty State / Welcome */}
+                            {!transcript.user && !transcript.ai && (
+                                <div className="flex flex-col items-center justify-center h-full text-center p-6 opacity-60">
+                                    <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-4">
+                                        <i className="fas fa-microphone-alt text-2xl text-zinc-500"></i>
+                                    </div>
+                                    <h3 className="text-zinc-300 font-bold mb-2">Voice Interface</h3>
+                                    <p className="text-xs text-zinc-500 max-w-xs">Tap the microphone below to start talking to your AI Tutor.</p>
+                                </div>
+                            )}
+
+                            {/* Live Indicator */}
+                            {isSessionActive && (transcript.user || transcript.ai) && (
+                                <div className="text-center text-[10px] text-zinc-600 mt-2 font-mono">
+                                    {isListening ? 'Listening...' : isSpeaking ? 'Speaking...' : 'Ready'}
+                                </div>
+                            )}
+                        </div>
+
+                        {/* Mic Controls */}
+                        <div className="p-4 border-t border-white/5 bg-black/20 flex-shrink-0">
+                            <div className="flex items-center justify-center gap-6">
+                                <button
+                                    onClick={toggleMute}
+                                    className={`p-3 rounded-full transition-all ${isMuted ? 'bg-red-500/20 text-red-400' : 'hover:bg-white/5 text-zinc-400'}`}
+                                    title="Mute (Alt+M)"
+                                    disabled={!isSessionActive}
+                                >
+                                    <i className={`fas fa-microphone-slash ${isMuted ? '' : 'hidden'}`}></i>
+                                    <i className={`fas fa-microphone ${!isMuted ? '' : 'hidden'}`}></i>
+                                </button>
+
+                                <button
+                                    onClick={handleMicClick}
+                                    className={`
+                                        w-16 h-16 rounded-full flex items-center justify-center shadow-lg transition-all duration-300 relative
+                                        ${micButtonState === 'connecting' ? 'bg-zinc-700 animate-pulse' : ''}
+                                        ${micButtonState === 'error' ? 'bg-red-500' : ''}
+                                        ${micButtonState === 'active' ? 'bg-gradient-to-r from-orange-500 to-red-500 hover:scale-105 shadow-orange-500/30' : ''}
+                                        ${micButtonState === 'listening' ? 'bg-gradient-to-r from-orange-500 to-red-500 scale-110 shadow-orange-500/50 ring-4 ring-orange-500/20' : ''}
+                                        ${micButtonState === 'speaking' ? 'bg-indigo-500 ring-4 ring-indigo-500/20' : ''}
+                                        ${micButtonState === 'idle' ? 'bg-zinc-800 border border-white/10 hover:bg-zinc-700 hover:border-white/20' : ''}
+                                        ${micButtonState === 'muted' ? 'bg-gray-600 opacity-50' : ''}
+                                    `}
+                                >
+                                    {micButtonState === 'connecting' && <i className="fas fa-spinner fa-spin text-xl text-white"></i>}
+                                    {micButtonState === 'error' && <i className="fas fa-exclamation-triangle text-xl text-white"></i>}
+                                    {(micButtonState === 'active' || micButtonState === 'listening' || micButtonState === 'speaking') && <i className="fas fa-stop text-2xl text-white"></i>}
+                                    {micButtonState === 'idle' && <i className="fas fa-microphone text-2xl text-white/80"></i>}
+                                    {micButtonState === 'muted' && <i className="fas fa-microphone-slash text-2xl text-white"></i>}
+                                </button>
+
+                                <div className="w-10"></div> {/* Spacer for balance */}
+                            </div>
+                            <p className="text-center text-[10px] text-zinc-600 mt-3 font-medium uppercase tracking-widest">{getStatusText()}</p>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'notes' && (
+                    <div className="flex-grow p-4 flex flex-col min-h-0">
+                        <textarea
+                            className="flex-grow w-full bg-zinc-900/50 border border-white/10 rounded-xl p-4 text-sm text-zinc-300 placeholder-zinc-600 focus:outline-none focus:border-orange-500/50 focus:ring-1 focus:ring-orange-500/20 resize-none transition-all"
+                            placeholder="Type your notes here... (Auto-saved)"
+                            value={notes}
+                            onChange={(e) => updateNotes(e.target.value)}
+                        ></textarea>
+                        <p className="text-[10px] text-zinc-600 mt-2 text-right">
+                            {isSaving ? 'Saving...' : 'Saved'}
+                        </p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+};
+
+export default ConversationPanel;
