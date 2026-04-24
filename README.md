@@ -20,7 +20,7 @@
 > - **Mock Data Installed:** Actions that normally trigger heavy backend jobs (like executing code or voice chats) respond with dummy data to simulate the UI safely. 
 > - **Visually Authentic:** The interface, routing, and component architecture remain untouched so you can explore our engineering quality.
 > 
-> To experience the *real* functional application out in the wild with full algorithms and live data, **[Visit our live production deployment at EliteFoaks.com!](https://EliteFolks.com)**
+> To experience the *real* functional application out in the wild with full algorithms and live data, **[Visit our live production deployment at EliteFoaks.com!](https://elitefolks.com)**
 
 ---
 
