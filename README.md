@@ -1,7 +1,11 @@
 <div align="center">
-  <img src="./frontend/public/voicecode-logo.png" width="120" alt="EliteFolks Logo"/>
+  <img src="docs/images/banner.png" alt="EliteFolks Neon Banner"/>
+  <br/>
+  <br/>
+  <img src="./frontend/public/voicecode-logo.png" width="80" alt="EliteFolks Logo"/>
   <h1>EliteFolks | Next-Generation Technical Assessment & Learning</h1>
   <p><strong>A Showcase of Engineering, UI/UX, and AI Integration</strong></p>
+  <h3>🌐 <a href="https://EliteFoaks.com">Experience the Live Platform at EliteFoaks.com</a></h3>
 </div>
 
 <br/>
@@ -16,7 +20,7 @@
 > - **Mock Data Installed:** Actions that normally trigger heavy backend jobs (like executing code or voice chats) respond with dummy data to simulate the UI safely. 
 > - **Visually Authentic:** The interface, routing, and component architecture remain untouched so you can explore our engineering quality.
 > 
-> To experience the *real* functional application, **[visit our live production site](#)**.
+> To experience the *real* functional application out in the wild with full algorithms and live data, **[Visit our live production deployment at EliteFoaks.com!](https://EliteFoaks.com)**
 
 ---
 
@@ -36,11 +40,19 @@ Unlike standard chatbots, our AI tutor acts as a **true mentor**. It is explicit
 - **Micro-State Awareness:** The tutor knows exactly where your cursor is and what lesson you are struggling with.
 - *(Note: In this showcase repo, the voice capabilities are mocked strictly for visual demonstration).*
 
+<div align="center">
+  <img src="docs/images/ai_tutor.png" alt="AI Code Tutor Visualization" width="700"/>
+</div>
+
 ### 2. ⚔️ Competitive 1v1 Battle Arena
 The Battle Arena introduces a high-stakes, competitive programming space.
 - **Ranked Matchmaking:** Users face off against peers of similar skill ratings.
 - **Live Leaderboards:** Climb the global competitive ladder.
 - **Spectator Modes:** Watch complex logic battles unfold in real-time.
+
+<div align="center">
+  <img src="docs/images/arena.png" alt="Competitive Coding Arena Architecture" width="700"/>
+</div>
 
 ### 3. 🏢 B2B Hiring & Assessments Portal
 EliteFolks powers hiring for top organizations. 
